@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户登录</title>
+    <base th:href="@{/}" />
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_5009525_jzyvyksk9cg.css" />
+    <link rel="stylesheet" href="static/css/minireset.css" />
+    <link rel="stylesheet" href="static/css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="login-header">
+        <a href="index.html" class="login-header__link">
+          <img class="login-header__img" alt="" src="static/images/logo.gif" />
+        </a>
+      </div>
+      <div class="login-box">
+        <div class="login-box__content">
+          <h1 class="login-box__title">尚硅谷会员</h1>
+          <div class="login-box__tip">
+            <i></i>
+            <span class="msg" v-text="msg">账号密码错误</span>
+          </div>
+          <form action="user?method=login" class="login-form" method="post">
+            <div class="form-item">
+              <label class="form-item__label" for="username">用户名：</label>
+              <div class="form-item__control">
+                <input class="form-item__input" type="text" id="username" name="username" placeholder="请输入用户名"
+                       v-model="username"/>
+                <span class="form-item__error"></span>
+              </div>
+            </div>
+            <div class="form-item">
+              <label class="form-item__label" for="username">密码：</label>
+              <div class="form-item__control">
+                <input
+                  class="form-item__input"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="请输入密码"
+                  v-model="password"
+                />
+                <span class="form-item__error"></span>
+              </div>
+            </div>
+            <button type="submit" class="login-form__btn" @click="login">登录</button>
+          </form>
+          <!-- 注册链接 -->
+          <div class="login-box__footer">
+            <a href="user?method=toRegister" class="login-box__link">立即注册</a>
+          </div>
+        </div>
+      </div>
+      <div class="login-bottom">
+        <span> 尚硅谷书城.Copyright &copy;2015 </span>
+      </div>
+    </div>
+    <script src="static/js/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data() {
+          return {
+            username: "",
+            password: "",
+            msg: `[[ ${loginMsg == null ? "请输入用户名和密码" : loginMsg}]]`
+          }
+        },
+        methods: {
+          login() {
+            if(this.username == "") {
+              this.msg = "请输入用户名";
+              event.preventDefault();
+              return;
+            }
+            if(this.password == "") {
+              this.msg = "请输入密码";
+              event.preventDefault();
+              return;
+            }
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
