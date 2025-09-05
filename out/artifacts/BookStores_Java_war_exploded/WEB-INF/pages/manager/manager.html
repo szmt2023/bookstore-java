@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>后台管理</title>
+    <base href="http://localhost:3000/bookstore/" />
+    <link rel="stylesheet" href="static/css/minireset.css" />
+    <link rel="stylesheet" href="static/css/common.css" />
+    <style>
+      /* ========== 主体内容 ========== */
+      .main {
+        flex: 1;
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 60px 40px;
+        background-color: #fff;
+        text-align: center;
+      }
+
+      .main h1 {
+        font-size: 28px;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .main h1::before {
+        content: "👋 ";
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="w">
+          <div class="header-left">
+            <a href="index.html"> <img src="static/images/logo.gif" alt="" /></a>
+            <h1>后台管理系统</h1>
+          </div>
+          <div class="header-right">
+            <a class="book-manager" href="pages/manager/book_manager.html">图书管理</a>
+            <a class="order-manager" href="pages/manager/order_manager.html">订单管理</a>
+            <a class="back" href="index.html">返回商城</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="main">
+        <h1>欢迎管理员进入后台管理系统</h1>
+      </div>
+
+      <div class="bottom">
+        <span> 尚硅谷书城.Copyright &copy;2015 </span>
+      </div>
+    </div>
+  </body>
+</html>
