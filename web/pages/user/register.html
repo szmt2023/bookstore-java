@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户注册</title>
+    <base href="http://localhost:3000/bookstore/" />
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_5009525_jzyvyksk9cg.css" />
+    <link rel="stylesheet" href="static/css/minireset.css" />
+    <link rel="stylesheet" href="static/css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="login-header">
+        <a href="index.html" class="login-header__link">
+          <img class="login-header__img" alt="" src="static/images/logo.gif" />
+        </a>
+      </div>
+      <div class="login-box">
+        <div class="login-box__content">
+          <h1 class="login-box__title">注册尚硅谷会员</h1>
+          <form action="registerServlet" class="login-form" method="post">
+            <div class="form-item">
+              <label for="username" class="form-item__label">用户名：</label>
+              <div class="form-item__control">
+                <input
+                  class="form-item__input"
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="请输入用户名"
+                  v-model="user.username"
+                  @blur="checkUsername"
+                />
+                <span class="form-item__error" v-text="msg.usernameErrorMsg"></span>
+              </div>
+            </div>
+            <div class="form-item">
+              <label for="username" class="form-item__label">密码：</label>
+              <div class="form-item__control">
+                <input
+                  class="form-item__input"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="请输入密码"
+                  v-model="user.password"
+                  @blur="checkPassword"
+                />
+                <span class="form-item__error" v-text="msg.passwordErrorMsg"></span>
+              </div>
+            </div>
+            <div class="form-item">
+              <label for="username" class="form-item__label">确认密码：</label>
+              <div class="form-item__control">
+                <input
+                  class="form-item__input"
+                  type="password"
+                  placeholder="请输入密码"
+                  v-model="user.password2"
+                  @blur="checkPassword2"
+                />
+                <span class="form-item__error" v-text="msg.passwordErrorMsg2"></span>
+              </div>
+            </div>
+            <div class="form-item">
+              <label class="form-item__label" for="email">用户邮箱：</label>
+              <div class="form-item__control">
+                <input
+                  class="form-item__input"
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="请输入邮箱"
+                  v-model="user.email"
+                  @blur="checkEmail"
+                />
+                <span class="form-item__error" v-text="msg.emailErrorMsg"></span>
+              </div>
+            </div>
+            <div class="form-item">
+              <label for="email" class="form-item__label">验证码：</label>
+              <div class="form-item__control code">
+                <div>
+                  <input class="form-item__input" type="text" placeholder="" v-model="user.code" @blur="checkCode" />
+                  <img src="static/images/code.bmp" />
+                </div>
+                <span class="form-item__error" v-text="msg.codeMsg"></span>
+              </div>
+            </div>
+            <button type="submit" class="login-form__btn" @click="handleRegister">注册</button>
+          </form>
+          <!-- 注册链接 -->
+          <div class="login-box__footer">
+            <a href="pages/user/login.html" class="login-box__link">返回登录</a>
+          </div>
+        </div>
+      </div>
+      <div class="login-bottom">
+        <span> 尚硅谷书城.Copyright &copy;2015 </span>
+      </div>
+    </div>
+    <script src="static/js/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data() {
+          return {
+            user: {
+              username: "",
+              password: "",
+              password2: "",
+              email: "",
+              code: "",
+            },
+            flagArray: [0, 0, 0, 0],
+            msg: {
+              usernameErrorMsg: "用户名为 6-16 位数字和字母组成",
+              passwordErrorMsg: "密码长度至少位 8 位",
+              passwordErrorMsg2: "密码两次输入不一致",
+              emailErrorMsg: "请输入正确的邮箱格式",
+              codeMsg: "请输入正确的验证码",
+            },
+          };
+        },
+        methods: {
+          checkUsername() {
+            let usernameReg = /^[a-zA-Z0-9]{6,16}$/;
+            let flag = usernameReg.test(this.user.username);
+            if (flag) {
+              this.msg.usernameErrorMsg = "√";
+              this.flagArray[0] = 1;
+            } else {
+              this.msg.usernameErrorMsg = "用户名应为6~16位数字和字母组成";
+              this.flagArray[0] = 0;
+            }
+          },
+          checkPassword() {
+            let passwordReg = /^.{8,}$/;
+            let flag = passwordReg.test(this.user.password);
+            if (flag) {
+              this.msg.passwordErrorMsg = "√";
+              this.flagArray[1] = 1;
+            } else {
+              this.msg.passwordErrorMsg = "密码的长度至少为8位";
+              this.flagArray[1] = 0;
+            }
+          },
+          checkPassword2() {
+            if (this.user.password === this.user.password2) {
+              this.msg.passwordErrorMsg2 = "√";
+              this.flagArray[2] = 1;
+            } else {
+              this.msg.passwordErrorMsg2 = "密码两次输入不一致";
+              this.flagArray[2] = 0;
+            }
+          },
+          checkEmail() {
+            let emailRege = /^[a-zA-Z0-9_.-]+@([a-zA-Z0-9-]+[.]{1})+[a-zA-Z]+$/;
+            if (emailRege.test(this.user.email)) {
+              this.msg.emailErrorMsg = "√";
+              this.flagArray[3] = 1;
+            } else {
+              this.msg.emailErrorMsg = "请输入正确的邮箱格式";
+              this.flagArray[3] = 0;
+            }
+          },
+          checkCode() {},
+          handleRegister() {
+            this.checkPassword2();
+            let flagStr = this.flagArray.join(",");
+            if (flagStr !== "1,1,1,1") {
+              event.preventDefault();
+              alert("表单提交不通过");
+            } else {
+              alert("表单提交通过");
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
