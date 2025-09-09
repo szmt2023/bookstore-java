@@ -41,7 +41,7 @@ public class BookDaoImpl extends BaseDaoImpl implements BookDao {
 
     @Override
     public void deleteBookById(int id) {
-        String sql = "DELETE FROM tb_book WHERE id = ?";
+        String sql = "DELETE FROM tb_books WHERE id = ?";
         this.update(sql, id);
     }
 }

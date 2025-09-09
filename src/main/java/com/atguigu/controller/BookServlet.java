@@ -35,14 +35,18 @@ public class BookServlet extends BaseServlet{
     }
 
     // 获取图书列表
+
     public void getBookList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         List<Book> list = bookService.getBookList();
-        System.out.println("list = " + list);
         req.setAttribute("bookList", list);
         this.processTemplate("manager/book_manager", req, resp);
     }
 
-    public void findBook(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    /**
+     *  <a th:href="@{/book(method=toEditBook,id=${book.id})}">修改</a>
+     */
+    public void toEditBook(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         Book book = bookService.findBookById(id);
 
@@ -50,31 +54,37 @@ public class BookServlet extends BaseServlet{
         this.processTemplate("manager/book_edit", req, resp);
     }
 
+
+    /**
+     * <form action="book?method=addBook" method="post">
+     */
     public void addBook(HttpServletRequest req, HttpServletResponse resp) throws IOException, InvocationTargetException, IllegalAccessException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         Book book = new Book();
         BeanUtils.populate(book, parameterMap);
         bookService.addBook(book);
-        System.out.println("book = " + book);
-        System.out.println(req.getContextPath());
         resp.sendRedirect(req.getContextPath() + "/book?method=getBookList");
     }
 
+    /**
+     *  <form action="book?method=updateBook" method="post">
+     */
     public void updateBook(HttpServletRequest req, HttpServletResponse resp) throws IOException, InvocationTargetException, IllegalAccessException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         Book book = new Book();
         BeanUtils.populate(book, parameterMap);
         bookService.updateBook(book);
-
-        resp.sendRedirect(req.getContextPath() + "user?method=getBookList");
+        resp.sendRedirect(req.getContextPath() + "/book?method=getBookList");
     }
 
 
-
+    /**
+     * <a th:href="@{/book(method=deleteBook,id=${book.id})}" class="del">删除</a>
+     */
     public void deleteBook(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         bookService.deleteBookById(id);
 
-        resp.sendRedirect(req.getContextPath() + "book?method=getBookList");
+        resp.sendRedirect(req.getContextPath() + "/book?method=getBookList");
     }
 }
