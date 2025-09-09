@@ -76,7 +76,7 @@
                 <td th:text="${book.sales}">200</td>
                 <td th:text="${book.stock}">400</td>
                 <td>
-                  <a th:href="@{/book(method=findBook,id=${book.id})}">修改</a>
+                  <a th:href="@{/book(method=toEditBook,id=${book.id})}">修改</a>
                   <a th:href="@{/book(method=deleteBook,id=${book.id})}" class="del">删除</a>
                 </td>
               </tr>
