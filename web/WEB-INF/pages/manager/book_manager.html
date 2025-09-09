@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>图书管理</title>
-    <base href="http://localhost:3000/bookstore/" />
+    <base th:href="@{/}" />
     <link rel="stylesheet" href="static/css/minireset.css" />
     <link rel="stylesheet" href="static/css/common.css" />
     <link rel="stylesheet" href="static/css/pagination.css" />
     <link rel="stylesheet" href="static/css/table.css" />
     <style>
       .add {
-        overflow: hiddenw;
+        overflow: hidden;
         padding-top: 25px;
       }
       .add a {
@@ -46,24 +46,12 @@
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <div class="w">
-          <div class="header-left">
-            <a href="index.html"> <img src="static/images/logo.gif" alt="" /></a>
-            <h1>后台管理系统</h1>
-          </div>
-          <div class="header-right">
-            <a class="book-manager active" href="#">图书管理</a>
-            <a class="order-manager" href="pages/manager/order_manager.html">订单管理</a>
-            <a class="back" href="index.html">返回商城</a>
-          </div>
-        </div>
-      </div>
+      <div th:replace="manager/template::header"></div>
 
       <div class="main">
         <div class="w">
           <div class="add">
-            <a href="pages/manager/book_add.html">添加图书</a>
+            <a href="book?method=toAddBook">添加图书</a>
           </div>
           <table>
             <thead>
@@ -78,32 +66,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr th:each="book : ${bookList}">
                 <td>
-                  <img src="static/uploads/huozhe.jpg" alt="" />
+                  <img th:src="${book.imgPath}" alt="" />
                 </td>
-                <td>活着</td>
-                <td>100.00</td>
-                <td>余华</td>
-                <td>200</td>
-                <td>400</td>
+                <td th:text="${book.title}">活着</td>
+                <td th:text="${book.price}">100.00</td>
+                <td th:text="${book.author}">余华</td>
+                <td th:text="${book.sales}">200</td>
+                <td th:text="${book.stock}">400</td>
                 <td>
-                  <a href="pages/manager/book_edit.html">修改</a>
-                  <a href="" class="del">删除</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img src=".static/uploads/huozhe.jpg" alt="" />
-                </td>
-                <td>活着</td>
-                <td>100.00</td>
-                <td>余华</td>
-                <td>200</td>
-                <td>400</td>
-                <td>
-                  <a href="pages/manager/book_edit.html">修改</a>
-                  <a href="" class="del">删除</a>
+                  <a th:href="@{/book(method=findBook,id=${book.id})}">修改</a>
+                  <a th:href="@{/book(method=deleteBook,id=${book.id})}" class="del">删除</a>
                 </td>
               </tr>
             </tbody>
@@ -130,9 +104,7 @@
         </div>
       </div>
 
-      <div class="bottom">
-        <span> 尚硅谷书城.Copyright &copy;2015 </span>
-      </div>
+      <div th:replace="manager/template::bottom"></div>
     </div>
   </body>
 </html>

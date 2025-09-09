@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>编辑书籍</title>
-    <base href="http://localhost:3000/bookstore/" />
+    <base th:href="@{/}" />
     <link rel="stylesheet" href="static/css/minireset.css" />
     <link rel="stylesheet" href="static/css/common.css" />
     <style>
@@ -100,23 +100,10 @@
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <div class="w">
-          <div class="header-left">
-            <a href="index.html"> <img src="static/images/logo.gif" alt="" /></a>
-            <h1>编辑图书</h1>
-          </div>
-          <div class="header-right">
-            <a class="book-manager" href="pages/manager/book_manager.html">图书管理</a>
-            <a class="order-manager" href="pages/manager/order_manager.html">订单管理</a>
-            <a class="back" href="index.html">返回商城</a>
-          </div>
-        </div>
-      </div>
-
+      <div th:replace="manager/template::head"></div>
       <div class="main">
         <div class="register_form">
-          <form action="">
+          <form action="user?method=updateBook" method="post">
             <div class="form-item">
               <div>
                 <label>名称:</label>
@@ -158,9 +145,10 @@
         </div>
       </div>
 
-      <div class="bottom">
-        <span> 尚硅谷书城.Copyright &copy;2015 </span>
-      </div>
+      <div th:replace="manager/template::bottom"></div>
     </div>
   </body>
+  <script>
+
+  </script>
 </html>

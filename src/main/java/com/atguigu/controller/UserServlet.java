@@ -33,6 +33,15 @@ public class UserServlet extends BaseServlet {
     }
 
     // 登录
+
+    /**
+     * url: localhost:3000/bookstore/loginServlet
+     * 参数：username password
+     * 业务：根据用户名和密码查询数据库
+     * 结果:
+     *    有值：true 重定向到系统首页
+     *    没值：false 转发到登录页面
+     */
     public void login(HttpServletRequest req, HttpServletResponse resp) throws InvocationTargetException, IllegalAccessException, IOException {
         // 1. 获取前端数据
         Map<String, String[]> parameterMap = req.getParameterMap();
