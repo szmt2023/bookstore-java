@@ -1,0 +1,18 @@
+<html lang="en" xmlns:th="http://thymeleaf.org">
+    <div class="header" th:fragment="header">
+        <div class="w">
+            <div class="header-left">
+                <a href="index.html"> <img src="static/images/logo.gif" alt="" /></a>
+                <h1>后台管理系统</h1>
+            </div>
+            <div class="header-right">
+                <a class="book-manager" href="book?method=getBookList">图书管理</a>
+                <a class="order-manager" href="book?method=getOrderList">订单管理</a>
+                <a class="back" href="index.html">返回商城</a>
+            </div>
+        </div>
+    </div>
+    <div class="bottom" th:fragment="bottom">
+        <span> 尚硅谷书城.Copyright &copy;2015 </span>
+    </div>
+</html>

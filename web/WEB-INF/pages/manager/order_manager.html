@@ -12,19 +12,7 @@
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <div class="w">
-          <div class="header-left">
-            <a href="index.html"> <img src="static/images/logo.gif" alt="" /></a>
-            <h1>后台管理系统</h1>
-          </div>
-          <div class="header-right">
-            <a class="book-manager" href="pages/manager/book_manager.html">图书管理</a>
-            <a class="order-manager active" href="#">订单管理</a>
-            <a class="back" href="index.html">返回商城</a>
-          </div>
-        </div>
-      </div>
+      <div th:replace="manager/template::header"></div>
       <div class="main">
         <div class="w">
           <table>
@@ -87,9 +75,7 @@
         </div>
       </div>
 
-      <div class="bottom">
-        <span> 尚硅谷书城.Copyright &copy;2015 </span>
-      </div>
+      <div th:replace="manager/template::bottom"></div>
     </div>
   </body>
 </html>
