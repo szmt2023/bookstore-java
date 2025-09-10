@@ -21,4 +21,6 @@ public interface UserService {
      * @return boolean
      */
     boolean register(User user);
+
+    boolean isUsernameExists(String username);
 }

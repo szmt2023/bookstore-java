@@ -7,6 +7,7 @@ import com.atguigu.services.UserService;
 import com.atguigu.utils.MD5Util;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 /**
  * @Author: ljg
@@ -44,5 +45,11 @@ public class UserServiceImpl implements UserService {
             }
         }
         return i > 0;
+    }
+
+    @Override
+    public boolean isUsernameExists(String username) {
+        Optional<User> optional = userDao.findUserByUsername(username);
+        return optional.isPresent();
     }
 }

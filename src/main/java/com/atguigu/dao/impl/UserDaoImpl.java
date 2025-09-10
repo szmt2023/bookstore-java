@@ -3,6 +3,8 @@ package com.atguigu.dao.impl;
 import com.atguigu.dao.UserDao;
 import com.atguigu.pojo.User;
 
+import java.util.Optional;
+
 /**
  * @Author: ljg
  * @Date: 2025/9/5 11:03 AM Friday
@@ -24,5 +26,10 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         return effectRow;
     }
 
-
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        String sql = "SELECT * FROM tb_user WHERE username = ?";
+        User userDb = this.getBean(User.class, sql, username);
+        return Optional.ofNullable(userDb);
+    }
 }

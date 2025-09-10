@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>用户登录</title>
-    <base href="http://localhost:3000/bookstore/" />
+    <base th:href="@{/}" />
     <link rel="stylesheet" href="//at.alicdn.com/t/c/font_5009525_jzyvyksk9cg.css" />
     <link rel="stylesheet" href="static/css/minireset.css" />
     <link rel="stylesheet" href="static/css/style.css" />
@@ -23,7 +23,7 @@
             <i></i>
             <span class="msg" v-text="msg">账号密码错误</span>
           </div>
-          <form action="loginServlet" class="login-form" method="post">
+          <form action="user?method=login" class="login-form" method="post">
             <div class="form-item">
               <label class="form-item__label" for="username">用户名：</label>
               <div class="form-item__control">
@@ -50,7 +50,7 @@
           </form>
           <!-- 注册链接 -->
           <div class="login-box__footer">
-            <a href="pages/user/register.html" class="login-box__link">立即注册</a>
+            <a href="user?method=toRegister" class="login-box__link">立即注册</a>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
           return {
             username: "",
             password: "",
-            msg: "账号或密码错误"
+            msg: `[[ ${loginMsg == null ? "请输入用户名和密码" : loginMsg}]]`
           }
         },
         methods: {
