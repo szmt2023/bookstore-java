@@ -3,12 +3,13 @@ package com.atguigu.controller;
 import com.atguigu.pojo.User;
 import com.atguigu.services.UserService;
 import com.atguigu.services.impl.UserServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
+import com.atguigu.vo.SysResult;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.View;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -21,6 +22,8 @@ import java.util.Map;
 
 @WebServlet("/user")
 public class UserServlet extends BaseServlet {
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+
     private UserService userService = new UserServiceImpl();
     // 跳到登录页
     public void toLogin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -90,4 +93,36 @@ public class UserServlet extends BaseServlet {
         req.getSession().removeAttribute("dbUser");
         resp.sendRedirect(req.getContextPath() + "/index.html");
     }
+
+
+    public void checkUsername(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String username = req.getParameter("username");
+        boolean flag = userService.isUsernameExists(username);
+        String jsonStr = null;
+        if(flag) {
+            // 用户存在
+            jsonStr = MAPPER.writeValueAsString(SysResult.fail("用户已存在", null));
+        } else {
+            jsonStr = MAPPER.writeValueAsString(SysResult.success());
+        }
+        resp.setContentType("application/json;charset=utf-8");
+        resp.getWriter().write(jsonStr);
+    }
+
+    // 校验验证码
+    public void checkCode(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String code = req.getParameter("code");
+        String sessionCode = (String) req.getSession().getAttribute("KAPTCHA_SESSION_KEY");
+        SysResult result;
+        if(sessionCode.equals(code)) {
+            result = SysResult.success("验证码正确", null);
+        } else {
+            result = SysResult.fail("验证码错误", null);
+        }
+        String jsonStr = MAPPER.writeValueAsString(result);
+        resp.setContentType("application/json;charset=utf-8");
+        resp.getWriter().write(jsonStr);
+    }
+
+
 }
