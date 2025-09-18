@@ -21,6 +21,7 @@ public abstract class BaseServlet extends ViewBaseServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String methodName = req.getParameter(METHOD);
         Class<? extends BaseServlet> clazz = this.getClass();
         Method[] declaredMethods = clazz.getDeclaredMethods();

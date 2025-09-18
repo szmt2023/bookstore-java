@@ -1,185 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <base href="http://localhost:3000/bookstore/" />
+    <base th:href="@{/}">
     <title>购物车</title>
     <link rel="stylesheet" href="//at.alicdn.com/t/c/font_5009525_jzyvyksk9cg.css" />
     <link rel="stylesheet" href="static/css/minireset.css" />
     <link rel="stylesheet" href="static/css/common.css" />
+    <link rel="stylesheet" href="static/css/table.css" />
     <link rel="stylesheet" href="static/css/cart.css" />
   </head>
   <body>
-    <div class="header">
-      <div class="w">
-        <div class="header-left">
-          <a href="index.html"> <img src="static/images/logo.gif" alt="" /></a>
-        </div>
-        <div class="header-right">
-          <h3>欢迎<span>张总</span>光临尚硅谷书城</h3>
-          <div class="order"><a href="order/order.html">我的订单</a></div>
-          <div class="destory"><a href="index.html">注销</a></div>
-          <div class="gohome">
-            <a href="index.html">返回</a>
+    <div id="app">
+      <div th:replace="cart/template::header"></div>
+      <div class="list">
+        <div class="w">
+          <h1>我的购物车</h1>
+          <div colspan="6" v-if="cartItems.length == 0">
+            购物车空空如也~~
+          </div>
+          <table v-else>
+            <thead>
+              <tr>
+                <th>图片</th>
+                <th>商品名称</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>金额</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="cartItem in cartItems">
+                <td>
+                  <img :src="cartItem.book.imgPath" alt="" />
+                </td>
+                <td v-text="cartItem.book.title">活着</td>
+                <td>
+                  <span class="count" @click="decreaseQuantity(cartItem)">-</span>
+                  <input class="count-num" type="text" value="1" v-model.number="cartItem.count"
+                         @blur="updateQuantity(cartItem)"/>
+                  <span class="count" @click="increaseQuantity(cartItem)">+</span>
+                </td>
+                <td v-text="cartItem.book.price">36.8</td>
+                <td v-text="cartItem.amount">36.8</td>
+                <td><a href="#" @click.prevent="clearCartItem(cartItem.book.id)">删除</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="footer">
+            <div class="footer-left">
+              <a href="#" class="clear-cart" @click.prevent="clearCart">清空购物车</a>
+              <a href="#">继续购物</a>
+            </div>
+            <div class="footer-right">
+              <div>共<span v-text="totalCount">3</span>件商品</div>
+              <div class="total-price">总金额<span v-text="totalAmount">99.9</span>元</div>
+              <a class="pay" href="order?method=toCheckout">去结账</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="list">
-      <div class="w">
-        <h1>我的购物车</h1>
-        <table>
-          <thead>
-            <tr>
-              <th>图片</th>
-              <th>商品名称</th>
-
-              <th>数量</th>
-              <th>单价</th>
-              <th>金额</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <img src="static/uploads/huozhe.jpg" alt="" />
-              </td>
-              <td>活着</td>
-              <td>
-                <span class="count">-</span>
-                <input class="count-num" type="text" value="1" />
-                <span class="count">+</span>
-              </td>
-              <td>36.8</td>
-              <td>36.8</td>
-              <td><a href="">删除</a></td>
-            </tr>
-            <tr>
-              <td>
-                <img src="static/uploads/kanjian.jpg" alt="" />
-              </td>
-              <td>看见</td>
-              <td>
-                <span class="count">-</span>
-                <input class="count-num" type="text" value="1" />
-                <span class="count">+</span>
-              </td>
-              <td>40.1</td>
-              <td>40.1</td>
-              <td><a href="">删除</a></td>
-            </tr>
-            <tr>
-              <td>
-                <img src="static/uploads/kanjian.jpg" alt="" />
-              </td>
-              <td>假如书名太长了,只展示一部分书名.自动展示省略号</td>
-              <td>
-                <span class="count">-</span>
-                <input class="count-num" type="text" value="1" />
-                <span class="count">+</span>
-              </td>
-              <td>40.1</td>
-              <td>40.1</td>
-              <td><a href="">删除</a></td>
-            </tr>
-            <tr>
-              <td>
-                <img src="static/uploads/kanjian.jpg" alt="" />
-              </td>
-              <td>假如书名太长了,只展示一部分书名.自动展示省略号</td>
-              <td>
-                <!-- <div> -->
-                <span class="count">-</span>
-                <input class="count-num" type="text" value="100" />
-                <span class="count">+</span>
-                <!-- </div> -->
-              </td>
-              <td>40.1</td>
-              <td>40.1</td>
-              <td><a href="">删除</a></td>
-            </tr>
-            <tr>
-              <td>
-                <img src="static/uploads/kanjian.jpg" alt="" />
-              </td>
-              <td>假如书名太长了,只展示一部分书名.自动展示省略号</td>
-              <td>
-                <span class="count">-</span>
-                <input class="count-num" type="text" value="99" />
-                <span class="count">+</span>
-              </td>
-              <td>40.1</td>
-              <td>40.1</td>
-              <td><a href="">删除</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="footer">
-          <div class="footer-left">
-            <a href="#" class="clear-cart">清空购物车</a>
-            <a href="#">继续购物</a>
+      <!-- 底部 -->
+      <div class="bottom">
+        <div class="w">
+          <div class="top">
+            <ul>
+              <li>
+                <a href="">
+                  <img src="static/images/bottom1.png" alt="" />
+                  <span>大咖级讲师亲自授课</span>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <img src="static/images/bottom.png" alt="" />
+                  <span>课程为学员成长持续赋能</span>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <img src="static/images/bottom2.png" alt="" />
+                  <span>学员真是情况大公开</span>
+                </a>
+              </li>
+            </ul>
           </div>
-          <div class="footer-right">
-            <div>共<span>3</span>件商品</div>
-            <div class="total-price">总金额<span>99.9</span>元</div>
-            <a class="pay" href="checkout.html">去结账</a>
+          <div class="content">
+            <dl>
+              <dt>关于尚硅谷</dt>
+              <dd>教育理念</dd>
+              <dd>名师团队</dd>
+              <dd>学员心声</dd>
+            </dl>
+            <dl>
+              <dt>资源下载</dt>
+              <dd>视频下载</dd>
+              <dd>资料下载</dd>
+              <dd>工具下载</dd>
+            </dl>
+            <dl>
+              <dt>加入我们</dt>
+              <dd>招聘岗位</dd>
+              <dd>岗位介绍</dd>
+              <dd>招贤纳师</dd>
+            </dl>
+            <dl>
+              <dt>联系我们</dt>
+              <dd>http://www.com.atguigu.com</dd>
+              <dd></dd>
+            </dl>
           </div>
-        </div>
-      </div>
-    </div>
-    <!-- 底部 -->
-    <div class="bottom">
-      <div class="w">
-        <div class="top">
-          <ul>
-            <li>
-              <a href="">
-                <img src="static/images/bottom1.png" alt="" />
-                <span>大咖级讲师亲自授课</span>
-              </a>
-            </li>
-            <li>
-              <a href="">
-                <img src="static/images/bottom.png" alt="" />
-                <span>课程为学员成长持续赋能</span>
-              </a>
-            </li>
-            <li>
-              <a href="">
-                <img src="static/images/bottom2.png" alt="" />
-                <span>学员真是情况大公开</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="content">
-          <dl>
-            <dt>关于尚硅谷</dt>
-            <dd>教育理念</dd>
-            <dd>名师团队</dd>
-            <dd>学员心声</dd>
-          </dl>
-          <dl>
-            <dt>资源下载</dt>
-            <dd>视频下载</dd>
-            <dd>资料下载</dd>
-            <dd>工具下载</dd>
-          </dl>
-          <dl>
-            <dt>加入我们</dt>
-            <dd>招聘岗位</dd>
-            <dd>岗位介绍</dd>
-            <dd>招贤纳师</dd>
-          </dl>
-          <dl>
-            <dt>联系我们</dt>
-            <dd>http://www.com.atguigu.com</dd>
-            <dd></dd>
-          </dl>
         </div>
       </div>
     </div>
   </body>
+  <script src="static/js/axios.js"></script>
+  <script src="static/js/vue.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          cartItems: [],
+          totalCount: 0,
+          totalAmount: 0
+        }
+      },
+      methods: {
+        async getCartList() {
+          // {flag: true, message: "xxx", data: { totalCount, totalAmount, cartItem }}
+          let {data: sysResult} = await axios.get("cart?method=getCartList")
+          if(sysResult.flag) {
+            this.cartItems = sysResult.data.cartItems;
+            this.totalCount = sysResult.data.totalCount;
+            this.totalAmount = sysResult.data.totalAmount;
+          } else {
+            alert(sysResult.message)
+          }
+        },
+        async increaseQuantity(cartItem) {
+          cartItem.count += 1;
+          this.updateQuantity(cartItem);
+        },
+        decreaseQuantity(cartItem) {
+          let count = cartItem.count;
+          if(count <= 1) {
+            this.clearCartItem(cartItem.book.id)
+          } else {
+            cartItem.count -= 1;
+            this.updateQuantity(cartItem);
+          }
+
+
+        },
+        async updateQuantity(cartItem) {
+          let count = cartItem.count;
+          if(!/^[1-9][0-9]*$/.test(count)) {
+            alert("请输入正整数");
+            cartItem.count = 1;
+            return;
+          }
+          let {data: sysResult} =
+                  await axios.get(`cart?method=updateQuantity&bookId=${cartItem.book.id}&count=${count}`);
+
+          if(sysResult.flag) {
+            this.getCartList();
+          } else {
+            alert(sysResult.message);
+          }
+        },
+        // 清空购物车
+        async clearCart() {
+          let {data: sysResult} = await axios.get("cart?method=clearCart");
+          if(sysResult.flag) {
+            alert(sysResult.message);
+            this.getCartList();
+          } else {
+            alert(sysResult.message);
+          }
+        },
+        // 从购物车中移除选中商品
+        async clearCartItem(bookId) {
+          let {data: sysResult} = await axios.get(`cart?method=clearCartItem&bookId=${bookId}`);
+          if(sysResult.flag) {
+            alert(sysResult.message)
+            this.getCartList();
+          } else {
+            alert(sysResult.message);
+          }
+        }
+      },
+      created() {
+        this.getCartList();
+      }
+    })
+  </script>
 </html>
