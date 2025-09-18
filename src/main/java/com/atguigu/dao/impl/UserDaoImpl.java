@@ -14,7 +14,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     @Override
     public User findUserByUP(User user) {
         String sql = "SELECT * FROM tb_user WHERE username = ? AND password = ?";
-        System.out.println("user = " + user);
         User dbUser = this.getBean(User.class, sql, user.getUsername(), user.getPassword());
         return dbUser;
     }

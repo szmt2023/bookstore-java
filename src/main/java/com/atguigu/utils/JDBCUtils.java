@@ -16,7 +16,6 @@ public class JDBCUtils {
     private static DataSource dataSource;
     private static ThreadLocal<Connection> threadLocal;
 
-
     static {
         try {
             // 获取数据库连接信息
@@ -52,10 +51,10 @@ public class JDBCUtils {
         if(connection != null) {
             try {
                 connection.close();
+                threadLocal.remove();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-
 }

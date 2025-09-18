@@ -1,5 +1,6 @@
 package com.atguigu.controller;
 
+import com.atguigu.constants.Constants;
 import com.atguigu.pojo.User;
 import com.atguigu.services.UserService;
 import com.atguigu.services.impl.UserServiceImpl;
@@ -59,7 +60,7 @@ public class UserServlet extends BaseServlet {
         // 4. 如果登录成功，重定向到首页
         //    如果登录失败，回到登录页，并且给请求域添加错误信息返回给登录页接收
         if(dbUser != null) {
-            req.getSession().setAttribute("dbUser", dbUser);
+            req.getSession().setAttribute(Constants.SESSION_USER_KEY, dbUser);
             resp.sendRedirect(req.getContextPath() + "/index.html");
         } else {
             req.setAttribute("loginMsg", "账号或密码错误");

@@ -1,0 +1,18 @@
+<html lang="en" xmlns:th="http://thymeleaf.org">
+    <div class="header" th:fragment="header">
+        <div class="w">
+            <div class="header-left">
+                <a href="index.html"> <img src="static/images/logo.gif" alt="" /></a>
+                <span>我的购物车</span>
+            </div>
+            <div class="header-right">
+                <h3>欢迎<span th:text="${session.dbUser != null ? session.dbUser.username: 'xxx'}">张总</span>光临尚硅谷书城</h3>
+                <div class="order"><a href="order?method=findOrderByUserId">我的订单</a></div>
+                <div class="destory"><a href="index.html">注销</a></div>
+                <div class="gohome">
+                    <a href="index.html">返回</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
